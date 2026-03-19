@@ -1,2 +1,138 @@
-aaa<<br>>
-変更
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ガチャゲーム</title>
+
+<style>
+body{
+    font-family: sans-serif;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    text-align:center;
+    padding-top:50px;
+}
+
+h1{
+    color:white;
+}
+
+#gachaButton{
+    font-size:24px;
+    padding:15px 40px;
+    border:none;
+    border-radius:10px;
+    background:gold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+#gachaButton:hover{
+    transform:scale(1.1);
+}
+
+#resultBox{
+    margin-top:40px;
+    font-size:30px;
+    background:white;
+    width:300px;
+    margin-left:auto;
+    margin-right:auto;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.rarity{
+    font-size:20px;
+    margin-top:10px;
+}
+
+.common{color:gray;}
+.rare{color:blue;}
+.superrare{color:purple;}
+.ultra{color:red;}
+</style>
+</head>
+
+<body>
+
+<h1>スマホ風ガチャゲーム</h1>
+
+<button id="gachaButton">ガチャを引く！</button>
+
+<div id="resultBox">
+    結果がここに出ます
+</div>
+
+<script>
+
+const characters = [
+    {name:"スライム", rarity:"N"},
+    {name:"ゴブリン", rarity:"N"},
+    {name:"ウルフ", rarity:"N"},
+    {name:"ナイト", rarity:"R"},
+    {name:"魔法使い", rarity:"R"},
+    {name:"ドラゴン", rarity:"SR"},
+    {name:"フェニックス", rarity:"SR"},
+    {name:"神竜", rarity:"UR"}
+];
+
+function getRandomCharacter(){
+
+    const rand = Math.random()*100;
+
+    if(rand < 50){
+        return characters[Math.floor(Math.random()*3)];
+    }
+    else if(rand < 80){
+        return characters[3 + Math.floor(Math.random()*2)];
+    }
+    else if(rand < 95){
+        return characters[5 + Math.floor(Math.random()*2)];
+    }
+    else{
+        return characters[7];
+    }
+}
+
+document.getElementById("gachaButton").onclick = function(){
+
+    const resultBox = document.getElementById("resultBox");
+
+    resultBox.innerHTML = "ガチャ中...";
+
+    setTimeout(()=>{
+
+        const char = getRandomCharacter();
+
+        let rarityClass="";
+        let rarityText="";
+
+        if(char.rarity==="N"){
+            rarityClass="common";
+            rarityText="★";
+        }
+        else if(char.rarity==="R"){
+            rarityClass="rare";
+            rarityText="★★";
+        }
+        else if(char.rarity==="SR"){
+            rarityClass="superrare";
+            rarityText="★★★";
+        }
+        else{
+            rarityClass="ultra";
+            rarityText="★★★★";
+        }
+
+        resultBox.innerHTML =
+        `<div>${char.name}</div>
+        <div class="rarity ${rarityClass}">${rarityText} (${char.rarity})</div>`;
+
+    },1500);
+}
+
+</script>
+
+</body>
+</html>
